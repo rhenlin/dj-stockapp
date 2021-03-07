@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>{% block title %}Stock Portfolio{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+
+    <style>
+        .logo{
+            height: 80px;
+        }
+        .lgn-btn {
+            margin: 10px;
+            margin-bottom: 40px;
+        }
+
+        .panel {
+            margin: 200px;
+        }
+        .title {
+           padding-top: 20px; 
+        }
+        .sub {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="content" name="content" class="columns is-mobile is-centered is-vcentered">
+    {% block content %}
+        <div class="column is-half">
+            <nav class="panel is-primary">
+                <center><p class="panel-heading">Login</p></center>
+
+                <center>
+                    <a href="{% url 'login' %}" name='login' class='button is-primary lgn-btn'>Access Dashboard</a>
+                </center>
+            </nav>
+        </div>
+	{% endblock %}
+    </div>
+
+</body>
+</html>

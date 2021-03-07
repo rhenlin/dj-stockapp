@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class='title'>Place Sell Order</h1>
+{% if ticker %}
+<div class="is-primary">
+ 
+        {% for items in ticker %}
+            <a class="button is-danger" href="{% url 'sell' items.id %}">{{ items | upper }} - Sell Stock</a><br /><br />
+        {% endfor %}
+        
+  
+</div>
+
+{% else %}
+    No Stocks to sell
+{% endif %}
+
+{% endblock %}

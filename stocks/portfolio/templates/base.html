@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+{% load humanize %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stock Portfolio</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  </head>
+  <body>
+    <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="{% url 'order_stock' %}">
+            Stock Portfolio
+          </a>
+      
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </a>
+        </div>
+        {% if user.is_authenticated %}
+        <div id="navbarBasicExample" class="navbar-menu">
+          <div class="navbar-start">
+            <a class="navbar-item" href="{% url 'wallet' %}">
+              Wallet
+            </a>
+      
+            <a class="navbar-item" href="{% url 'order_stock' %}">
+              Buy Stock
+            </a>
+
+            <a class="navbar-item" href="{% url 'sell_stock' %}">
+              Sell Stock
+            </a>
+      
+            </div>
+          </div>
+          
+      
+          <div class="navbar-end">
+            {% if wallet %}
+            <div class="navbar-item">
+              Balance : ${{wallet.balance | intcomma }}
+            </div>
+            {% endif %}
+            <div class="navbar-item">
+            <form action="{% url 'quote' %}" method="POST">
+                {% csrf_token %}
+                <div class="field has-addons">
+                    <div class="control">
+                      <input class="input is-primary" type="text" placeholder="Enter Symbol" name="ticker">
+                    </div>
+                    <div class="control">
+                      <input type="submit" value="Get Stock Quote" class="button is-primary">
+                        
+                      
+                    </div>
+                </div>
+            </form>
+          </div>
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-light" href="/logout">
+                  <strong>Logout</strong>
+                </a>
+            </div>
+          </div>
+          {% endif %} 
+          </div>
+        </div>
+      </nav>
+  <section class="section">
+    <div class="container">
+
+        {% if messages %}
+          {% for message in messages %}
+          <div class="notification is-success is-light">
+            <button class="delete" onclick="this.parentElement.style.display='none'"></button>
+            {{ message }}  
+          </div>
+          {% endfor %}
+        {% endif %}
+
+        
+
+        {% block content %}
+
+        {% endblock %}
+
+        
+
+
+    </div>
+  </section>
+  </body>
+</html>
+

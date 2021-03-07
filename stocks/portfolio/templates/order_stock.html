@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+{% if user.is_authenticated %}
+<h1 class="title">Place Stock Order</h1>
+
+<form action="{% url 'order_stock' %}" method="POST">
+    {% csrf_token %}
+    <div class="field is-horizontal">
+      <div class="field-body">
+        <div class="field">
+          <input class="input is-primary" type="text" placeholder="Enter Symbol" name="ticker">   
+        </div>
+        <div class="field"> 
+          <input class="input is-primary" type="text" placeholder="Quantity" name="quantity"> 
+        </div>
+        <div class="field control">      
+          <input type="submit" value="Place Buy Order" class="button is-primary">
+      </div>
+      </div>
+    </div>
+</form>
+<br />
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>Company Name</th>
+        <th>Symbol</th>
+        <th>Quantity</th>
+        <th>Portfolio Value</th>
+        <th>Price</th>
+        <th>Previous Close</th>
+        <th>% Change</th>
+        <th>Market Cap</th>
+        <th>52 Week High</th>
+        <th>52 Week Low</th>
+        <th>YTD Change</th>
+      
+      </tr>
+    </thead>
+    <tbody>
+    {% if ticker %}
+  
+    {% for list_item in output %}
+    
+        <tr>
+            
+            <th>{{ list_item.1.companyName }}</th>
+            <td>{{ list_item.1.symbol }}</td>
+            <td>{{ list_item.0.quantity }}</td>
+            <td>${% widthratio list_item.1.latestPrice 1 list_item.0.quantity %}</td>
+            <td>${{ list_item.1.latestPrice | intcomma }}</td>
+            <td>${{ list_item.1.previousClose | intcomma }}</td>
+            <td>{{ list_item.1.changePercent }}</td>
+            <td>${{ list_item.1.marketCap | intcomma }}</td>
+            <td>${{ list_item.1.week52High | intcomma }}</td>
+            <td>${{ list_item.1.week52Low | intcomma }}</td>
+            <td>{{ list_item.1.ytdChange }}</td>
+            
+        </tr>
+        
+    {% endfor %}
+    {% endif %}
+    </tbody>
+  </table>
+  {% else %}
+        <div class="columns is-mobile is-centered is-vcentered">
+          <div class="column is-half">
+              <center>
+                  <nav class="panel is-primary login-warning" style="margin: 30px;">
+                      <center><p class="panel-heading">Login Required</p></center>
+                          <h1 class="sub" style="margin:20px;">Please login to access dashboard</h1>
+                          <p><a href="/login" class="button is-primary" style="margin-bottom:20px;">Login Here</a> </p>
+                  </nav>
+              </center>
+          </div>
+  </div>
+  {% endif %}
+
+{% endblock %}

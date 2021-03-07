@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+
+<div class="card">
+    <div class="card-content">
+      <p class="title">
+        Balance
+      </p>
+      {% if wallet %}
+      <p class="subtitle">
+        ${{ wallet.balance | intcomma }}
+      </p>
+      {% endif %}
+    </div>
+  </div>
+<br />
+<article class="panel is-primary">
+    <p class="panel-heading">
+        Fund Acount
+    </p>
+    <form action="{% url 'deposit' %}" method="GET">
+    {% csrf_token %}
+    <div class="panel-block">
+      <p class="control">
+        <input class="input is-primary" type="text" name="amount" placeholder="Enter an amount...">
+      </p>
+    </div>
+    <a class="panel-block"><input class="button is-white" type="submit" value="Add Funds"></a>
+    </form>
+</article>
+
+
+{% endblock %}
